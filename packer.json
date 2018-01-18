@@ -1,0 +1,47 @@
+{
+  "builders": [
+    {
+      "name": "ubuntu-xenial-base-ami",
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "source_ami": "ami-cd0f5cb6",
+      "instance_type": "t2.micro",
+      "ssh_username": "jklimber",
+      "ami_name": "{{ build_name}}-{{isotime \"2006-01-02\"}}",
+      "tags": {
+        "Name": "Ubuntu Xenial base",
+        "OS_Version": "Ubuntu",
+        "Release": "Xenial",
+        "Comment": "Reference can be found at https://emagalha.es/blog/2018/01/17/using-hashicorp-s-packer-to-customize-the-default-user-of-an-ami/"
+      },
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_size": 30,
+          "volume_type": "gp2",
+          "delete_on_termination": true,
+          "encrypted": false
+        }
+      ],
+      "encrypt_boot": "false",
+      "ami_description": "Ubuntu 16.04 LTS base image",
+      "force_deregister": true,
+      "user_data_file": "./defaults.cfg"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "./defaults.cfg",
+      "destination": "/tmp/defaults.cfg"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get update && sudo apt-get install -y python",
+        "sudo mv /tmp/defaults.cfg /etc/cloud/cloud.cfg.d/defaults.cfg"
+      ]
+    }
+  ]
+}
