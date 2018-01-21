@@ -12,7 +12,7 @@
         "Name": "Ubuntu Xenial base",
         "OS_Version": "Ubuntu",
         "Release": "Xenial",
-        "Comment": "Reference can be found at https://emagalha.es/blog/2018/01/21/using-hashicorp-s-packer-to-customize-the-default-user-of-an-ami/"
+        "Comment": "Reference can be found at https://emagalha.es/2018/01/21/customizing-the-default-user-of-an-ubuntu-ami/"
       },
       "ami_block_device_mappings": [
         {
